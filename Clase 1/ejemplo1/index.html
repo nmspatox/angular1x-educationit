@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <link rel="stylesheet" href="style.css">
+  </head>
+
+  <body>
+    <!-- Declare a new AngularJS app and associate the controller -->
+    <form ng-app="OrderForm" ng-controller="OrderFormController as vm">
+    
+    	<h1>Services</h1>
+    
+    	<ul>
+    		<!-- Loop through the services array, assign a click handler, and set or
+    			remove the "active" css class if needed -->
+    		<li ng-repeat="service in vm.services" ng-click="vm.toggleActive(service)" ng-class="{active:service.active}">
+    			<!-- Notice the use of the currency filter, it will format the price -->
+    			{{service.name}} <span>{{service.price | currency}}</span>
+    		</li>
+    	</ul>
+    
+    	<div class="total">
+    		<!-- Calculate the total price of all chosen services. Format it as currency. -->
+    		Total: <span>{{vm.total() | currency}}</span>
+    	</div>
+    
+    </form>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+
+</html>
