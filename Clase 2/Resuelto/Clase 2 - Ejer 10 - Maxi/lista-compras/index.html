@@ -1,0 +1,88 @@
+<!doctype html>
+<html ng-app="ShoppingListCheckOff" lang="en">
+  <head>
+    <title>Shopping List Check Off</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+    <script src="app.js"></script>
+    <script src="controllers/ToBuyController.js"></script>
+    <script src="controllers/AlreadyBoughtController.js"></script>
+    <script src="services/ShoppingListCheckOffService.js"></script>
+    <style>
+      .emptyMessage {
+        font-weight: bold;
+        color: red;
+        font-size: 1.2em;
+      }
+      li {
+        margin-bottom: 7px;
+        font-size: 1.2em;
+      }
+      li > button {
+        margin-left: 6px;
+      }
+      button > span {
+        color: green;
+      }
+
+      .input-small{
+        width:100px;
+      }
+
+      .newItem label
+      {
+        margin-right: 5px;
+      }
+
+      .newItem button
+      {
+        margin-left: 15px;
+      }
+    </style>
+  </head>
+<body>
+  <div  class="container">
+  <h1>Shopping List Check Off</h1>
+
+  <div class="row">
+
+    <!-- To Buy List -->
+    <div ng-controller = "ToBuyController as buyController" class="col-md-6">
+     <h2>To Buy:</h2>
+     <ul>
+       <li ng-repeat = "item in buyController.items">
+      <input type="number" class="input-small" ng-model="item.quantity" min="1"> {{ item.unit }} of {{ item.name }} <button ng-click = "buyController.moveToBought($index)"><span class="glyphicon glyphicon-ok"></span> Bought</button>
+       </li>
+     </ul>
+     <div ng-if="buyController.items.length === 0" class="emptyMessage">Everything is bought!</div>
+     <div class="newItem row">
+        <h3>Add New Item</h3>
+        <div class="row">
+          <label class="col-xs-2">Name</label>
+          <input type="text" class="input-small col-xs-2" ng-model="buyController.newItem.name" >
+        </div>
+        <div class="row">
+          <label class="col-xs-2">Unit</label>
+          <input type="text" class="input-small col-xs-2" ng-model="buyController.newItem.unit" >
+        </div>   
+          <button ng-click="buyController.addNewItem()">Agregar</button>
+      </div>
+    </div>
+    
+
+    <!-- Already Bought List -->
+    <div  ng-controller = "AlreadyBoughtController as boughtController" class="col-md-6">
+     <h2 >Already Bought:</h2>
+     <ul>
+       <li ng-repeat = "item in boughtController.items">
+        Bought {{ item.quantity }} {{ item.unit }} of {{ item.name }}
+       </li>
+     </ul>
+     <div ng-if = "boughtController.items.length === 0" class="emptyMessage">Nothing bought yet.</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
