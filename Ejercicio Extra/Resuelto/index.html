@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en" ng-app="booksApp">
+<head>
+	<meta charset="utf-8">
+	<title>Books Library in AngularJS</title>
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-controller="BooksCtrl as books">
+	<div>
+		<label for="searchedBook">Buscar:</label> 
+		<input type="text" ng-model="searchedBook" id="searchedBook">
+	</div>
+	<br>
+	{{newBook}}
+	<form ng-submit="books.addBook(newBook)">
+		<fieldset>
+		<legend>New book:</legend>
+			<label for="author">Author:</label>
+			<input id="author" type="text" ng-model="newBook.author" required>
+			<label for="title">Title:</label>
+			<input id="title" type="text" ng-model="newBook.title" required>
+			<button type="submit">Add</button><br>
+		</fieldset>
+		<br>
+	</form>
+	<table>
+		<tr>
+			<th ng-click="orderProperty = 'title'">Titulo</th>
+			<th ng-click="orderProperty = 'author'">Autor</th>
+		</tr>
+		<tr ng-repeat="book in books.allBooks | filter:searchedBook | orderBy:orderProperty" track by $index">
+			<td>{{book.title}}</td>
+			<td>{{book.author}}</td>
+		</tr>
+	</table>
+	<script src="lib/angular.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/service.js"></script>
+	<script src="js/controller.js"></script>
+</body>
+</html>
