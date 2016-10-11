@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html ng-app="gemStore">
+<head>
+    <link rel="stylesheet" type="text/css" href="bootstrap.min.css" />
+    <script type="text/javascript" src="angular.min.js"></script>
+    <script type="text/javascript" src="app.js"></script>
+    <style>
+        .ng-invalid .ng-dirty{
+            border-color:red !important;
+        }
+
+        .ng-valid {
+            border-color:green !important;
+        }
+    </style>
+</head>
+<body class="list-group" ng-controller="StoreController as store">
+    <header>
+        <h1 class="text-center">Flatlander Crafted Gems</h1>
+        <h2 class="text-center">– an Angular store –</h2>
+    </header>
+    <div class="list-group-item" ng-repeat="product in store.products">
+        <h3>
+            {{product.name}}
+            <em class="pull-right">{{product.price | currency}}</em>
+        </h3>
+
+        <!-- Image Gallery  -->
+        <!-- 1 - Asignar el controlador GalleryController al elemento <div> de nuestro HTML con la clase .gallery, recordar usar alias -->
+        <div class='gallery' ng-show="product.images.length" ng-controller="GalleryController as gallery">
+            <!-- 2 - Seleccionar la primer imagen utilizando la propiedad current de nuestro controlador GelleryController -->
+            <img ng-src="{{product.images[gallery.current]}}" />
+            <ul class="list-inline thumbs">
+                <li class="thumbnail" ng-repeat="image in product.images">
+                    <img ng-src="{{image}}" ng-click="gallery.setCurrent($index)" style="cursor:pointer" />
+                </li>
+            </ul>
+        </div>
+
+        <section class="tab" ng-controller="TabController as tab">
+            <ul class="nav nav-pills">
+                <li ng-class="{ active: tab.isSet(1) }">
+                    <a href ng-click="tab.setTab(1)">Description</a>
+                </li>
+                <li ng-class="{ active: tab.isSet(2) }">
+                    <a href ng-click="tab.setTab(2)">Specs</a>
+                </li>
+                <li ng-class="{ active: tab.isSet(3) }">
+                    <a href ng-click="tab.setTab(3)">Reviews</a>
+                </li>
+            </ul>
+            <div ng-show="tab.isSet(1)">
+                <h4>Description</h4>
+                <blockquote>{{product.description}}</blockquote>
+            </div>
+            <div ng-show="tab.isSet(2)">
+                <h4>Specs</h4>
+                <blockquote>Shine: {{product.shine}}</blockquote>
+            </div>
+            <div ng-show="tab.isSet(3)">
+                <h4>Reviews</h4>
+                <ul>
+                    <li ng-repeat="review in product.reviews">
+                        <img ng-src="images/1stars.jpg" ng-if="review.stars == 1" />
+                        <img ng-src="images/2stars.jpg" ng-if="review.stars == 2" /> 
+                        <img ng-src="images/3stars.jpg" ng-if="review.stars == 3" /> 
+                        <img ng-src="images/4stars.jpg" ng-if="review.stars == 4" /> 
+                        <img ng-src="images/5stars.jpg" ng-if="review.stars == 5" /> 
+                        <cite>{{ review.body }}</cite>
+                        {{ review.author }} on {{ review.createdOn | date }}
+                    </li>
+                </ul>
+
+                <form name="newReviewForm" ng-submit="reviewCtrl.addReview(product, newReviewForm.$valid)" ng-controller="ReviewController as reviewCtrl" novalidate>
+                    <fieldset>
+                        <h4>New Review</h4>                        
+                        <div>
+                            <label>Preview</label> -->
+                            <img ng-src="images/1stars.jpg" ng-if="reviewCtrl.review.stars == 1" />
+                            <img ng-src="images/2stars.jpg" ng-if="reviewCtrl.review.stars == 2" /> 
+                            <img ng-src="images/3stars.jpg" ng-if="reviewCtrl.review.stars == 3" /> 
+                            <img ng-src="images/4stars.jpg" ng-if="reviewCtrl.review.stars == 4" /> 
+                            <img ng-src="images/5stars.jpg" ng-if="reviewCtrl.review.stars == 5" />
+                            {{ reviewCtrl.review.body }}
+                            <cite>{{ reviewCtrl.review.author }}</cite>
+                        </div> <br />
+                        <div class="form-group">
+                            Stars: <select name="stars" ng-model="reviewCtrl.review.stars"                             
+                            required>
+                               <option></option>
+                               <option>1</option>
+                               <option>2</option>
+                               <option>3</option>
+                               <option>4</option>
+                               <option>5</option>
+                            </select> 
+                            <p ng-show="newReviewForm.stars.$invalid && !newReviewForm.stars.$pristine" class="help-block">Enter a value for stars.</p>                   
+                        </div>                        
+                        <div class="form-group">
+                            Body: <textarea name="body"
+                            ng-model="reviewCtrl.review.body"></textarea>
+                        </div>
+                        <div class="form-group">
+                            Author: <input type="email" name="author" ng-model="reviewCtrl.review.author" 
+                            required />
+                            <p ng-show="newReviewForm.author.$invalid && !userForm.author.$pristine" class="help-block">Enter a valid email.</p>
+                        </div>                        
+                        <input type="submit" value="Save"/>
+                    </fieldset>        
+                                      
+                </form>                
+            </div>
+        </section>
+    </div>
+</body>
+</html>
