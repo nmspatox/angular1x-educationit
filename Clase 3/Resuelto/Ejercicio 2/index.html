@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en" ng-app="MoviesApp">
+<head>
+	<meta charset="utf-8">
+	<title>Movies in AngularJS</title>	
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="lib/bootstrap.min.js">	
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body ng-controller="MoviesController as moviesCtrl">
+	<div>
+		<label for="searchedMovie">Search:</label> 
+		<input type="text" ng-model="searchedMovie" id="searchedMovie">
+	</div>
+	<br>
+	{{ moviesCtrl.movie }}
+	<form name="newMovieForm" ng-submit="movies.addMovie(moviesCtrl.movie)">
+		<fieldset>
+		<legend>New Movie:</legend>
+			<div class="form-group">
+				<label for="author">Author:</label>
+				<input id="author" name="author" class="form-control" type="text" ng-model="moviesCtrl.movie.author" required>
+			</div>
+			<div class="form-group">
+				<label for="title">Title:</label>
+				<textarea id="description" name="description" class="form-control" ng-model="moviesCtrl.movie.description" required></textarea>
+			</div>			
+			<button type="submit">Add</button><br>
+		</fieldset>
+		<br>
+	</form>	
+	<table>
+		<tr>
+			<th>Actions</th>
+			<th ng-click="orderProperty = 'title'">Title</th>
+			<th ng-click="orderProperty = 'author'">Description</th>
+		</tr>
+		<tr ng-repeat="movie in moviesCtrl.movies | filter:searchedMovie | orderBy:orderProperty track by $index">
+			<td>
+				<a class="btn btn-danger" href="#" ng-click="moviesCtrl.movies.deleteMovie($index)">
+			  		<i class="icon-trash icon-white"></i>
+			  		Delete
+				</a>
+			</td>
+			<td>{{movie.title}}</td>
+			<td>{{movie.description}}</td>
+		</tr>
+	</table>
+	<script src="lib/angular.js"></script>	
+	<script src="js/app.js"></script>
+	<script src="services/MoviesService.js"></script>
+	<script src="controllers/MoviesController.js"></script>
+</body>
+</html>

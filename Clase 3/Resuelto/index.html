@@ -5,11 +5,11 @@
     <script type="text/javascript" src="angular.min.js"></script>
     <script type="text/javascript" src="app.js"></script>
     <style>
-        .ng-invalid .ng-dirty{
+        .ng-invalid.ng-dirty{
             border-color:red !important;
         }
 
-        .ng-valid {
+        .ng-valid.ng-dirty{
             border-color:green !important;
         }
     </style>
@@ -71,7 +71,7 @@
                     </li>
                 </ul>
 
-                <form name="newReviewForm" ng-submit="reviewCtrl.addReview(product, newReviewForm.$valid)" ng-controller="ReviewController as reviewCtrl" novalidate>
+                <form name="newReviewForm" ng-submit="reviewCtrl.addReview(product, newReviewForm)" ng-controller="ReviewController as reviewCtrl" novalidate>
                     <fieldset>
                         <h4>New Review</h4>                        
                         <div>

@@ -24,14 +24,15 @@
         };
     });
 
-    app.controller('ReviewController', function () {
+    app.controller('ReviewController', function () {        
         this.review = {};
 
-        this.addReview = function (product, isValid) {          
-          if (isValid){
+        this.addReview = function (product, form) {              
+          if (form.$valid){
             this.review.createdOn = Date.now();                  
             product.reviews.push(this.review); 
-            this.review = {};  
+            this.review = {}; 
+            form.$setPristine();
           }          
         };
     });
