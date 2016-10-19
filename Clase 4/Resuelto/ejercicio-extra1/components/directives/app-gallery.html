@@ -1,0 +1,11 @@
+<div ng-show="ctrl.apps.length">        
+    <ul class="img-thumbnails clearfix">
+        <li class="small-image pull-left thumbnail" ng-repeat="app in ctrl.apps">                       
+            <img ng-src="{{app.image}}" />
+            <price>{{ app.price | currency }}<price>
+            <author>{{ app.author }}</author>
+
+            <app-install-button></app-install-button>
+        </li>
+    </ul>
+</div>
